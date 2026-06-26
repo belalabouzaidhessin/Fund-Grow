@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center text-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-4 mt-5">
+            <div class="card-body p-5">
+                <div class="text-success mb-4 rounded-circle bg-success bg-opacity-10 d-inline-block p-4">
+                    <i class="fas fa-check-circle fa-5x"></i>
+                </div>
+                <h1 class="display-5 fw-bold text-dark mb-3">Investment Successful!</h1>
+                <p class="fs-4 text-muted mb-5">Thank you, {{ current_user.name }}. Your transaction has been securely processed.</p>
+                
+                <div class="bg-light p-4 rounded-3 text-start mb-5 shadow-inner border">
+                    <h4 class="fw-bold mb-4 text-secondary border-bottom pb-2"><i class="fas fa-receipt me-2 text-primary"></i>Transaction Receipt</h4>
+                    <div class="row mb-3 fs-5">
+                        <div class="col-6 text-muted">Transaction Ref:</div>
+                        <div class="col-6 fw-bold text-dark d-flex align-items-center">
+                            {{ transaction.transaction_reference }}
+                            <button class="btn btn-sm btn-outline-secondary ms-2" onclick="navigator.clipboard.writeText('{{ transaction.transaction_reference }}')" title="Copy Reference"><i class="far fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="row mb-3 fs-5">
+                        <div class="col-6 text-muted">Project:</div>
+                        <div class="col-6 fw-bold text-primary">{{ project.name }}</div>
+                    </div>
+                    <div class="row mb-3 fs-5">
+                        <div class="col-6 text-muted">Ownership Equity:</div>
+                        <div class="col-6 fw-bold"><span class="badge bg-secondary fs-6">{{ percentage }}%</span></div>
+                    </div>
+                    <div class="row mb-3 fs-5">
+                        <div class="col-6 text-muted">Amount Invested:</div>
+                        <div class="col-6 fw-bold text-success">${{ '{:,.2f}'.format(transaction.amount) }}</div>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                    <a href="{{ url_for('investor.dashboard') }}" class="btn btn-primary btn-lg px-4 gap-3 fw-bold shadow hover-lift"><i class="fas fa-home me-2"></i> Go to Dashboard</a>
+                    <a href="{{ url_for('main.index') }}" class="btn btn-outline-secondary btn-lg px-4 fw-bold hover-lift"><i class="fas fa-search me-2"></i> Browse More Projects</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

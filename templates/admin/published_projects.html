@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-3">
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-dark"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+    </div>
+    <div class="col-12">
+        <h3 class="fw-bold text-dark mb-4"><i class="fas fa-check-double text-success me-2"></i>Published Projects</h3>
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="py-3 ps-4">Project</th>
+                        <th>Status</th>
+                        <th>Goal</th>
+                        <th>Raised</th>
+                        <th class="pe-4">Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in projects %}
+                    {% set pct = (p.raised_amount/p.goal_amount*100)|round(1) %}
+                    {% if pct>100 %}{% set pct=100 %}{% endif %}
+                    <tr>
+                        <td class="ps-4 fw-bold"><a href="{{ url_for('main.project_detail', project_id=p.id) }}" target="_blank" class="text-decoration-none text-dark">{{ p.name }}</a></td>
+                        <td><span class="badge bg-success">Live</span></td>
+                        <td class="text-muted fw-bold">${{ '{:,.0f}'.format(p.goal_amount) }}</td>
+                        <td class="text-success fw-bold">${{ '{:,.0f}'.format(p.raised_amount) }}</td>
+                        <td class="pe-4 w-25">
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" style="width:{{ pct }}%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="5" class="py-4 text-center text-muted">No published projects yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

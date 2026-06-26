@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-7">
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-primary text-white text-center py-4 border-0">
+                <h2 class="mb-0 fw-bold"><i class="fas fa-user-plus me-3"></i>Join FundGrow</h2>
+                <p class="mb-0 mt-2 text-primary-light">Create your account to start investing or raising funds.</p>
+            </div>
+            <div class="card-body p-5 bg-light">
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4 shadow-sm">
+                                <input type="text" name="name" class="form-control" id="nameInput"
+                                    placeholder="John Doe" required>
+                                <label for="nameInput" class="text-muted"><i class="fas fa-user me-2"></i>Full
+                                    Name</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-4 shadow-sm">
+                                <input type="text" name="phone" class="form-control" id="phoneInput"
+                                    placeholder="1234567890">
+                                <label for="phoneInput" class="text-muted"><i class="fas fa-phone me-2"></i>Phone
+                                    Number</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-4 shadow-sm">
+                        <input type="email" name="email" class="form-control" id="emailInput"
+                            placeholder="name@example.com" required>
+                        <label for="emailInput" class="text-muted"><i class="fas fa-envelope me-2"></i>Email
+                            Address</label>
+                    </div>
+                    <div class="form-floating mb-4 shadow-sm">
+                        <input type="password" name="password" class="form-control" id="pwdInput" placeholder="Password"
+                            required>
+                        <label for="pwdInput" class="text-muted"><i class="fas fa-lock me-2"></i>Password</label>
+                    </div>
+
+                    <div class="mb-4 shadow-sm border rounded p-3 bg-white">
+                        <label class="form-label fw-bold text-dark"><i class="fas fa-id-card me-2"></i>National ID (Required)</label>
+                        <input type="file" name="national_id" class="form-control" accept="image/*,.pdf" required>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="isEmployedCheck">
+                        <label class="form-check-label text-dark fw-bold" for="isEmployedCheck">Are you currently employed?</label>
+                    </div>
+                    <div class="form-floating mb-4 shadow-sm" id="companyField" style="display: none;">
+                        <input type="text" name="employer_company" class="form-control" id="companyInput" placeholder="Company Name">
+                        <label for="companyInput" class="text-muted"><i class="fas fa-briefcase me-2"></i>Company Name</label>
+                    </div>
+
+                    <div class="mb-5 p-4 bg-white rounded shadow-sm border border-2 border-primary border-opacity-25">
+                        <label class="form-label fw-bold text-dark mb-3"><i class="fas fa-users-cog me-2"></i>I want to
+                            join as a:</label>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="radio" class="btn-check" name="role" id="roleInvestor" autocomplete="off"
+                                    value="investor" required checked>
+                                <label class="btn btn-outline-primary w-100 py-3 fw-bold" for="roleInvestor">
+                                    <i class="fas fa-chart-line fa-2x mb-2 d-block"></i>
+                                    Investor<br><small class="fw-normal">I want to fund projects</small>
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="radio" class="btn-check" name="role" id="roleStartup" autocomplete="off"
+                                    value="startup" required>
+                                <label class="btn btn-outline-success w-100 py-3 fw-bold" for="roleStartup">
+                                    <i class="fas fa-rocket fa-2x mb-2 d-block"></i>
+                                    Startup<br><small class="fw-normal">I want to raise funds</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow hover-lift py-3">Create
+                        Account</button>
+                </form>
+                <div class="text-center mt-4">
+                    <span class="text-secondary">Already have an account?</span> <a href="{{ url_for('auth.login') }}"
+                        class="fw-bold text-primary text-decoration-none">Log in here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const check = document.getElementById('isEmployedCheck');
+        const companyField = document.getElementById('companyField');
+        const companyInput = document.getElementById('companyInput');
+        check.addEventListener('change', function() {
+            if (this.checked) {
+                companyField.style.display = 'block';
+                companyInput.setAttribute('required', 'required');
+            } else {
+                companyField.style.display = 'none';
+                companyInput.removeAttribute('required');
+                companyInput.value = '';
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-3">
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-dark">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <div class="col-12">
+        <h3 class="fw-bold text-dark mb-4">
+            <i class="fas fa-money-bill-wave text-success me-2"></i>Global Ledger
+        </h3>
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <table class="table table-hover table-striped align-middle mb-0 text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="py-3 ps-4 text-start">Date</th>
+                        <th class="py-3 text-start">Reference</th>
+                        <th class="py-3 text-start">Project / Investor</th>
+                        <th class="py-3 text-end">Gross Inv.</th>
+                        <th class="py-3 text-danger text-end">Platf. Fee</th>
+                        <th class="py-3 text-success text-end pe-4">Net Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for txn in transactions %}
+                    <tr>
+                        <!-- transaction date -->
+                        <td class="ps-4 text-start text-muted small">
+                            <i class="far fa-calendar me-1"></i> {{ txn.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </td>
+
+                        <!-- refences  -->
+                        <td class="text-start"><code>{{ txn.transaction_reference[:8] }}...</code></td>
+
+                        <!-- invsttor and the project   -->
+                        <td class="text-start">
+                            {% if txn.project %}
+                            <span class="fw-bold text-dark">{{ txn.project.name }}</span><br>
+                            {% else %}
+                            <span class="fw-bold text-dark">No Project</span><br>
+                            {% endif %}
+
+                            {% if txn.investor %}
+                            <small class="text-muted">By {{ txn.investor.name }} (ID: {{ txn.investor.id }})</small>
+                            {% else %}
+                            <small class="text-muted">By UserId: {{ txn.investor_id }}</small>
+                            {% endif %}
+                        </td>
+
+                        <!-- amount  -->
+                        <td class="text-end fw-bold">${{ '{:,.2f}'.format(txn.amount) }}</td>
+                        <td class="text-end text-danger fw-bold">-${{ '{:,.2f}'.format(txn.platform_fee) }}</td>
+                        <td class="text-end text-success fw-bold pe-4">${{ '{:,.2f}'.format(txn.transferred_amount) }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="py-5 text-center text-muted">No transactions recorded yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

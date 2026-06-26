@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <div class="list-group shadow border-0 rounded-3">
+            <div class="list-group-item bg-primary text-white fw-bold py-3"><i class="fas fa-user-circle me-2"></i>
+                Investor Panel</div>
+            <a href="{{ url_for('investor.dashboard') }}" class="list-group-item list-group-item-action active py-3"><i
+                    class="fas fa-home me-2"></i> Dashboard</a>
+            <a href="{{ url_for('main.index') }}" class="list-group-item list-group-item-action py-3"><i
+                    class="fas fa-search-dollar me-2"></i> Browse Projects</a>
+            <a href="{{ url_for('investor.history') }}" class="list-group-item list-group-item-action py-3"><i
+                    class="fas fa-history me-2"></i> Transaction History</a>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="row mb-5">
+            <div class="col-md-6 mb-3">
+                <div class="card text-white bg-success shadow border-0 rounded-4 overflow-hidden h-100 hover-lift">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3 me-3">
+                            <i class="fas fa-wallet fa-3x"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title text-white-50 text-uppercase fw-bold mb-1">Total Invested</h5>
+                            <h2 class="mb-0 fw-bold display-6">${{ '{:,.2f}'.format(total_invested) }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card text-white bg-primary shadow border-0 rounded-4 overflow-hidden h-100 hover-lift">
+                    <div class="card-body p-4 d-flex align-items-center">
+                        <div class="rounded-circle bg-white bg-opacity-25 p-3 me-3">
+                            <i class="fas fa-chart-pie fa-3x"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title text-white-50 text-uppercase fw-bold mb-1">Total Investments</h5>
+                            <h2 class="mb-0 fw-bold display-6">{{ investments|length }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-dark mb-0"><i class="fas fa-layer-group text-primary me-2"></i>My Portfolio</h3>
+        </div>
+
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 text-center">
+                    <thead>
+                        <tr>
+                            <th class="py-3 text-start ps-4">Project</th>
+                            <th class="py-3">Ownership (%)</th>
+                            <th class="py-3">Investment Amount</th>
+                            <th class="py-3">Date</th>
+                            <th class="py-3 pe-4">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inv in investments %}
+                        <tr>
+                            <td class="text-start ps-4 fw-bold">
+                                <a href="{{ url_for('main.project_detail', project_id=inv.project_id) }}"
+                                    class="text-decoration-none text-dark">{{ inv.project.name }}</a>
+                            </td>
+                            <td><span class="badge bg-primary fs-6">{{ inv.percentage }}%</span></td>
+                            <td class="text-success fw-bold">${{ '{:,.2f}'.format(inv.investment_amount) }}</td>
+                            <td class="text-muted">{{ inv.created_at.strftime('%Y-%m-%d') }}</td>
+                            <td class="pe-4">
+                                <div class="d-flex justify-content-center">
+                                    <a href="{{ url_for('main.project_detail', project_id=inv.project_id) }}"
+                                        class="btn btn-sm btn-outline-secondary me-1">View</a>
+                                    <a href="{{ url_for('chat.project_chat', project_id=inv.project_id, other_user_id=inv.project.owner_id) }}" 
+                                        class="btn btn-sm btn-outline-primary fw-bold shadow-sm"><i class="fas fa-comment-dots"></i> Chat</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="py-5 text-muted">
+                                <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50"></i>
+                                <h5>You haven't made any investments yet.</h5>
+                                <a href="{{ url_for('main.index') }}" class="btn btn-primary mt-2">Find Projects</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

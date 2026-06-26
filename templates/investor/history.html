@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-3 mb-4">
+        <div class="list-group shadow border-0 rounded-3">
+            <div class="list-group-item bg-primary text-white fw-bold py-3"><i class="fas fa-user-circle me-2"></i>
+                Investor Panel</div>
+            <a href="{{ url_for('investor.dashboard') }}" class="list-group-item list-group-item-action py-3"><i
+                    class="fas fa-home me-2"></i> Dashboard</a>
+            <a href="{{ url_for('main.index') }}" class="list-group-item list-group-item-action py-3"><i
+                    class="fas fa-search-dollar me-2"></i> Browse Projects</a>
+            <a href="{{ url_for('investor.history') }}" class="list-group-item list-group-item-action active py-3"><i
+                    class="fas fa-history me-2"></i> Transaction History</a>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-dark mb-0"><i class="fas fa-receipt text-primary me-2"></i>Transaction Ledger</h3>
+            <button class="btn btn-outline-secondary" onclick="window.print()"><i
+                    class="fas fa-print me-2"></i>Print/Export</button>
+        </div>
+
+        <div class="card shadow border-0 rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th class="py-3 ps-4">Date</th>
+                                <th class="py-3">Reference ID</th>
+                                <th class="py-3">Project</th>
+                                <th class="py-3 text-end pe-4">Amount Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for txn in transactions %}
+                            <tr>
+                                <!-- date -->
+                                <td class="ps-4 text-muted">
+                                    <i class="far fa-calendar me-1"></i>
+                                    {% if txn.created_at %}
+                                    {{ txn.created_at.strftime('%Y-%m-%d %H:%M') }}
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                </td>
+
+                                <!-- refences  -->
+                                <td><code
+                                        class="text-secondary bg-light px-2 py-1 rounded">{{ txn.transaction_reference[:12] }}...</code>
+                                </td>
+
+                                <!-- project -->
+                                <td class="fw-bold">
+                                    {% if txn.project_id %}
+                                    <a href="{{ url_for('main.project_detail', project_id=txn.project_id) }}"
+                                        class="text-decoration-none text-dark">
+                                        Project #{{ txn.project_id }}
+                                    </a>
+                                    {% else %}
+                                    No Project
+                                    {% endif %}
+                                </td>
+
+                                <!-- amount -->
+                                <td class="text-end pe-4 text-success fw-bold">${{ '{:,.2f}'.format(txn.amount) }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <i class="fas fa-file-invoice-dollar fa-3x mb-3 text-secondary opacity-50"></i>
+                                    <h5>No transactions found.</h5>
+                                    <p>Start investing to build your transaction history.</p>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

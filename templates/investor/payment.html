@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h3 class="mb-0"><i class="fas fa-credit-card me-2"></i>Mock Payment Gateway</h3>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-info border-info border-2 bg-info bg-opacity-10 shadow-sm border-start">
+                    <h5 class="fw-bold"><i class="fas fa-info-circle me-2"></i>Payment Details</h5>
+                    <ul class="list-unstyled mb-0 fs-5 mt-3">
+                        <li class="mb-2"><strong class="text-dark">Project:</strong> <span class="text-primary">{{
+                                project.name }}</span></li>
+                        <li class="mb-2"><strong class="text-dark">Ownership Split:</strong> <span
+                                class="badge bg-secondary">{{ percentage }}%</span></li>
+                        <li><strong class="text-dark">Total Amount Due:</strong> <span class="text-success fw-bold">${{
+                                '{:,.2f}'.format(investment_amount) }}</span></li>
+                    </ul>
+                </div>
+
+                <form action="{{ url_for('investor.process_payment', project_id=project.id) }}" method="POST"
+                    class="mt-4 shadow-sm p-4 rounded bg-light border">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <input type="hidden" name="percentage" value="{{ percentage }}">
+
+                    <h5 class="fw-bold text-secondary mb-3 border-bottom pb-2">Credit Card Information</h5>
+                    <div class="form-floating mb-3 shadow-sm">
+                        <input type="text" class="form-control focus-ring text-dark fw-bold" id="cardInput"
+                            placeholder="xxxx-xxxx-xxxx-xxxx" required pattern="[\d\s-]{15,19}">
+                        <label for="cardInput"><i class="fab fa-cc-visa text-primary me-1"></i> <i
+                                class="fab fa-cc-mastercard text-danger me-2"></i>Card Number (Visa /
+                            Mastercard)</label>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-floating mb-3 shadow-sm">
+                                <input type="text" class="form-control focus-ring text-dark fw-bold" id="expInput"
+                                    placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})">
+                                <label for="expInput"><i class="far fa-calendar-alt me-2"></i>Expiry Date</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating mb-4 shadow-sm">
+                                <input type="text" class="form-control focus-ring text-dark fw-bold" id="cvcInput"
+                                    placeholder="123" required pattern="\d{3,4}">
+                                <label for="cvcInput"><i class="fas fa-lock me-2"></i>CVC / CVV</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold text-secondary mb-3 border-bottom pb-2 mt-5"><i
+                            class="fas fa-file-contract text-warning me-2"></i>Investment Agreement & Fee Details</h5>
+                    <div class="bg-white border rounded p-4 mb-3 shadow-inner"
+                        style="max-height: 200px; overflow-y: auto;">
+                        <p class="text-muted small mb-0">
+                            <strong>MUTUAL NON-DISCLOSURE AGREEMENT (NDA)</strong><br><br>
+                            This Non-Disclosure Agreement ("NDA") is entered into by and between the Investor and the
+                            Startup Entity linked to this investment on the FundGrow Platform.
+                            <br><br>
+                            1. <strong>Confidential Information:</strong> The Startup may disclose certain trade
+                            secrets, financial models, proprietary algorithms, and sensitive intellectual property.
+                            <br>2. <strong>Obligations:</strong> The Investor agrees to hold all Confidential
+                            Information in strict confidence and not to disclose it to any third party.
+                            <br>3. <strong>Term:</strong> This agreement remains in effect for five (5) years.
+                            <br><br>
+                            <strong>PLATFORM FEE & DISBURSEMENT SUMMARY</strong><br><br>
+                            - <strong>Total Investment Processed:</strong> ${{ '{:,.2f}'.format(investment_amount)
+                            }}<br>
+                            - <strong>Platform Commission Fee ({{ platform_fee_percentage }}%):</strong> <span
+                                class="text-danger fw-bold">${{ '{:,.2f}'.format(platform_fee) }}</span><br>
+                            - <strong>Net Amount to Startup:</strong> <span class="text-success fw-bold">${{
+                                '{:,.2f}'.format(net_amount) }}</span><br><br>
+                            By checking the box below, you consent to the {{ platform_fee_percentage }}% platform fee
+                            deduction and legally bind yourself to this Non-Disclosure Agreement.
+                        </p>
+                    </div>
+
+                    <div
+                        class="form-check mb-4 bg-light p-3 border border-2 border-primary border-opacity-25 rounded shadow-sm">
+                        <input class="form-check-input ms-1 shadow-sm mt-1 focus-ring" type="checkbox" id="ndaAgreement"
+                            required>
+                        <label class="form-check-label ms-3 text-dark fw-bold" for="ndaAgreement">
+                            I accept the NDA and agree to the {{ platform_fee_percentage }}% platform fee deduction
+                            structure.
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg w-100 fw-bold shadow hover-lift py-3"><i
+                            class="fas fa-check-circle me-2"></i> Confirm Payment of ${{
+                        '{:,.2f}'.format(investment_amount) }}</button>
+                    <a href="{{ url_for('investor.invest', project_id=project.id) }}"
+                        class="btn btn-link w-100 mt-2 text-decoration-none text-secondary fw-bold">Cancel
+                        Transaction</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,365 @@
+:root {
+    /* Primary Color Palette (Deep Violet & Rich Gold) */
+    /* NO BLUE TONES USED */
+    --primary: #2d1b33;
+    /* Deep Plum/Eggplant */
+    --primary-light: #4a2c52;
+    /* Lighter Plum */
+    --accent: #d4af37;
+    /* Classic Metallic Gold */
+    --accent-hover: #b8860b;
+    /* Dark Goldenrod */
+    --gold-glow: rgba(212, 175, 55, 0.4);
+
+    /* Semantic Colors */
+    --success: #1b4d3e;
+    /* Deep Forest Green (Trust/Legacy) */
+    --success-light: #f0fdf4;
+    --info: #7c3aed;
+    /* Strong Violet */
+    --warning: #f59e0b;
+    /* Amber */
+    --danger: #991b1b;
+    /* Deep Red */
+
+    /* Neutral Shades */
+    --bg-main: #faf9f6;
+    /* Warm Off-White / Paper */
+    --bg-card: #ffffff;
+    --text-main: #332d2d;
+    /* Warm Dark Gray */
+    --text-muted: #6b6363;
+    /* Warm Muted Gray */
+    --text-heading: #ffffff;
+    /* Rich Near-Black */
+    --border-color: #e5e1da;
+    /* Warm Border */
+
+    /* Design Tokens */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1.25rem;
+    --radius-xl: 2rem;
+    --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 20px -2px rgba(45, 27, 51, 0.1);
+    --shadow-lg: 0 10px 40px -5px rgba(45, 27, 51, 0.2);
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Base Styles --- */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-heading);
+    font-weight: 700;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+    padding: 1.25rem 0;
+    border-bottom: 2px solid var(--accent);
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    letter-spacing: -0.05em;
+    color: #fff !important;
+}
+
+.navbar-brand i {
+    color: var(--accent);
+}
+
+.nav-link {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85) !important;
+    transition: var(--transition);
+    padding: 0.5rem 1.25rem !important;
+}
+
+.nav-link:hover {
+    color: var(--accent) !important;
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    color: var(--accent) !important;
+}
+
+/* --- Banner (Hero Section) --- */
+.banner {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, #4c1d95 100%) !important;
+    padding: 6rem 0;
+    color: #fff;
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    margin-bottom: 3rem;
+    box-shadow: 0 15px 35px rgba(45, 27, 51, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    opacity: 0.05;
+}
+
+/* --- Cards --- */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px);
+}
+
+.project-card-placeholder {
+    height: 220px;
+    background: linear-gradient(135deg, var(--primary) 0%, #4c1d95 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card-placeholder::after {
+    content: '\f10c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 8rem;
+    color: var(--accent);
+    opacity: 0.1;
+    position: absolute;
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem;
+    font-weight: 700;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    box-shadow: 0 6px 20px rgba(45, 27, 51, 0.3);
+}
+
+.btn-gold,
+.btn-warning {
+    background: linear-gradient(135deg, var(--accent) 0%, #f1c40f 100%) !important;
+    border: none !important;
+    color: #000 !important;
+    box-shadow: 0 4px 15px var(--gold-glow);
+}
+
+.btn-gold:hover,
+.btn-warning:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 25px var(--gold-glow);
+    filter: brightness(1.1);
+}
+
+.btn-outline-primary {
+    color: var(--primary) !important;
+    border: 2px solid var(--primary) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+/* --- Tables --- */
+.table thead th {
+    background-color: #f8f1f1;
+    color: var(--primary);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    padding: 1.25rem;
+    border-bottom: 3px solid var(--accent);
+}
+
+.table tbody td {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+/* --- Forms --- */
+.form-control,
+.form-select {
+    padding: 0.85rem 1.25rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: #fff;
+    transition: var(--transition);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--gold-glow);
+}
+
+/* --- Progress Bars --- */
+.progress {
+    height: 14px !important;
+    background-color: #f1efed !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%) !important;
+    border-radius: 10px;
+}
+
+/* --- Badges --- */
+.badge {
+    padding: 0.6em 1em;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, var(--success) 0%, #22c55e 100%) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+}
+
+/* --- Sidebar --- */
+.list-group-item {
+    border: 1px solid transparent;
+    border-left: 4px solid transparent;
+    padding: 1.25rem 1.5rem;
+    color: var(--text-muted);
+}
+
+.list-group-item.active {
+    background-color: #f5f3ff !important;
+    color: var(--primary) !important;
+    border-left-color: var(--accent);
+    font-weight: 700;
+}
+
+/* --- Utilities --- */
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.text-accent {
+    color: var(--accent) !important;
+}
+
+.text-success {
+    color: #15803d !important;
+}
+
+.shadow-premium {
+    box-shadow: 0 25px 50px -12px rgba(45, 27, 51, 0.25);
+}
+
+/* Micro-animations */
+.hover-lift {
+    transition: var(--transition);
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px) scale(1.01);
+}
+
+footer {
+    background: var(--primary) !important;
+    padding: 4rem 0;
+    color: #fff !important;
+    border-top: 4px solid var(--accent);
+}
+
+footer .text-muted {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
